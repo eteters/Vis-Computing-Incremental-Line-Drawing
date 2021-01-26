@@ -23,10 +23,33 @@ MainWindow::MainWindow(QWidget *parent)
   int maxx = ui->pixelWidget->bufferSize().width() - 1;
   int maxy = ui->pixelWidget->bufferSize().height() - 1;
 
-  // Draw line
-  drawLineBasic(0, 0, 50, 99, foreground);
+  int xlist [3] = {10, (maxx-10) / 2, maxx - 10};
+  int ylist [3] = {10, (maxy-10) / 2, maxy - 10};
 
-//  ui->pixelWidget->setZoom(4);
+
+  for (int i=0; i < 3; i++ ) {
+    for (int j=0; j< 3; j++ ) {
+      for (int i2=0; i2 < 3; i2++ ) {
+        for (int j2=0; j2< 3; j2++ ) {
+          qDebug() << xlist[i] << " , " << ylist[j] <<  " , " << xlist[i2] << " , " << ylist[j2] << "\n";
+          drawLineBasic(xlist[i], ylist[j], xlist[i2], ylist[j2], foreground);
+        }
+      }
+    }
+  }
+
+
+  // Draw line
+//  drawLineBasic(0, 0, 50, 99, foreground);
+
+//  // Test Cases
+//  drawLineBasic(10, 40, 60, 40, foreground);
+//  drawLineBasic(40, 10, 40, 60, foreground);
+
+//  drawLineBasic(0, 0, maxx, maxy, foreground);
+
+//  drawLineBasic(20, 70, 50, 99, foreground);
+//  drawLineBasic(0, 0, 50, 99, foreground);
 
 }
 
@@ -37,33 +60,42 @@ MainWindow::~MainWindow()
 
 void MainWindow::drawLineBasic(int x1, int y1, int x2, int y2, const QColor &color)
 {
+
   ui->pixelWidget->writePixel(x1, y1, color);
 
-  float xRange = std::abs(x2 - x1) + 0.000001;
-  float yRange = std::abs(y2 - y1);
+  float xRange = x2 - x1;
+  float yRange = y2 - y1;
 
   float slope = yRange / xRange;
 
-//  for (int currentX = 0; currentX < xRange ; currentX++  ) {
-//    for (int currentY = 0; currentY < yRange ; currentY++ ) {
-//      if( (currentY * 1.0 / currentX * 1.0) == (slope) )
-//        ui->pixelWidget->writePixel(currentX, currentY, color);
-//    }
-//  }
+  if(std::abs(qRound(slope)) <= 1) {
 
-//  for (float currentX = x1; currentX < x2 ; currentX+=0.001  ) {
-//      float newY = slope * currentX - slope * x1 + y1;
-
-//      ui->pixelWidget->writePixel(qRound(currentX), qRound(newY), color);
-//   }
-
-  // needs more absolute value
-    for (int currentX = x1; currentX < x2 ; currentX++  ) {
-      int currentY = std::abs(qRound(y1 + yRange * (currentX - x1 * 1.0) / xRange ));
-      ui->pixelWidget->writePixel(currentX, currentY, color);
+    if(slope < 0) {
+      for (int currentX = x2; currentX < x1 ; currentX++  ) {
+        int currentY = qRound(y2 + slope * (currentX - x2 * 1.0) );
+        ui->pixelWidget->writePixel(currentX, currentY, color);
+      }
+    } else {
+      for (int currentX = x1; currentX < x2 ; currentX++  ) {
+        int currentY = qRound(y1 + slope * (currentX - x1 * 1.0) );
+        ui->pixelWidget->writePixel(currentX, currentY, color);
+      }
     }
+  } else {
+    if (slope < 0) {
+      for (int currentY = y2; currentY < y1 ; currentY++  ) {
+        int currentX = qRound(x2 + slope * (currentY - y2 * 1.0));
+        ui->pixelWidget->writePixel(currentX, currentY, color);
+      }
+    } else {
+      for (int currentY = y1; currentY < y2 ; currentY++  ) {
+        int currentX = qRound(x1 + slope * (currentY - y1 * 1.0));
+        ui->pixelWidget->writePixel(currentX, currentY, color);
+      }
+    }
+  }
 
-  ui->pixelWidget->writePixel(x2, y2, color);
+  //ui->pixelWidget->writePixel(x2, y2, color);
 
 }
 
