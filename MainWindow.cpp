@@ -63,8 +63,8 @@ void MainWindow::drawLineBasic(int x1, int y1, int x2, int y2, const QColor &col
 
   ui->pixelWidget->writePixel(x1, y1, color);
 
-  float xRange = x2 - x1;
-  float yRange = y2 - y1;
+  float xRange = x2 - x1 + 0.0000001;
+  float yRange = y2 - y1 + 0.0000001;
 
   float slope = yRange / xRange;
 
@@ -84,12 +84,12 @@ void MainWindow::drawLineBasic(int x1, int y1, int x2, int y2, const QColor &col
   } else {
     if (slope < 0) {
       for (int currentY = y2; currentY < y1 ; currentY++  ) {
-        int currentX = qRound(x2 + slope * (currentY - y2 * 1.0));
+        int currentX = qRound(x2 + (1/slope) * (currentY - y2 * 1.0));
         ui->pixelWidget->writePixel(currentX, currentY, color);
       }
     } else {
       for (int currentY = y1; currentY < y2 ; currentY++  ) {
-        int currentX = qRound(x1 + slope * (currentY - y1 * 1.0));
+        int currentX = qRound(x1 + (1/slope) * (currentY - y1 * 1.0));
         ui->pixelWidget->writePixel(currentX, currentY, color);
       }
     }
