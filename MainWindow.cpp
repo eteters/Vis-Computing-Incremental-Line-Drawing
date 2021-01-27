@@ -70,18 +70,18 @@ void MainWindow::drawLineBasic(int x1, int y1, int x2, int y2, const QColor &col
 
   if(std::abs(slope) <= 1) {
 
-    int currentY = newY1;
+    float currentY = newY1;
     for (int currentX = newX1; currentX < newX2 ; currentX++  ) {
-      currentY = qRound( (currentY* 1.0f) + slope );
-      ui->pixelWidget->writePixel(currentX, currentY, color);
+      currentY =  currentY + slope ;
+      ui->pixelWidget->writePixel(currentX, qRound(currentY), color);
     }
 
   } else {
 
-      int currentX = newX1;
+      float currentX = newX1;
       for (int currentY = newY1; currentY < newY2 ; currentY++  ) {
-        currentX = qRound( (currentX * 1.0f) + (1.0f/slope) );
-        ui->pixelWidget->writePixel(currentX, currentY, color);
+        currentX = currentX + (1.0f/slope) ;
+        ui->pixelWidget->writePixel(qRound( currentX ), currentY, color);
       }
 
   }
