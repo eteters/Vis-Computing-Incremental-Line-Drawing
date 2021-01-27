@@ -15,6 +15,8 @@ MainWindow::MainWindow(QWidget *parent)
   ui->actionZoom_In->setShortcut(QKeySequence::ZoomIn);
   ui->actionZoom_Out->setShortcut(QKeySequence::ZoomOut);
 
+  setZoom(1);
+
   // Query colors from widget's palette
   QColor background = palette().window().color();
   QColor foreground = palette().windowText().color();
@@ -108,5 +110,9 @@ void MainWindow::zoomActualSize()
 void MainWindow::setZoom(int zoom)
 {
   ui->pixelWidget->setZoom(zoom);
+
+  ui->actionActual_Size->setEnabled(ui->pixelWidget->zoom() != 1);
+  ui->actionZoom_Out->setEnabled(ui->pixelWidget->zoom() != 1);
+
 }
 
