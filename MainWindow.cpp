@@ -8,7 +8,7 @@
 
 MainWindow::MainWindow(QWidget *parent)
   : QMainWindow(parent)
-  , ui(new Ui::MainWindow)
+  , ui(new Ui::MainWindow), m_drawLineDialog(new DrawLineDialog(this))
 {
   ui->setupUi(this);
 
@@ -16,6 +16,10 @@ MainWindow::MainWindow(QWidget *parent)
   ui->actionZoom_Out->setShortcut(QKeySequence::ZoomOut);
 
   setZoom(1);
+
+  // Connect line dialog
+  connect(ui->actionDraw_Line, &QAction::triggered,
+          m_drawLineDialog, &DrawLineDialog::show);
 
   // Query colors from widget's palette
   QColor background = palette().window().color();

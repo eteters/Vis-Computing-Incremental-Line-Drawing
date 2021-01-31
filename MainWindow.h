@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "DrawLineDialog.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -27,5 +28,7 @@ public slots:
 
 private:
   Ui::MainWindow *ui;
+
+  DrawLineDialog *m_drawLineDialog;
 };
 #endif // MAINWINDOW_H
