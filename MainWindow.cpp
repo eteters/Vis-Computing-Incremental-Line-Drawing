@@ -32,6 +32,12 @@ MainWindow::MainWindow(QWidget *parent)
   int maxx = ui->pixelWidget->bufferSize().width() - 1;
   int maxy = ui->pixelWidget->bufferSize().height() - 1;
 
+  // set spin box ranges
+  m_drawLineDialog->setPixelRange(0,0, maxx, maxy);
+
+  connect(m_drawLineDialog, &DrawLineDialog::lineParametersChanged,
+          this, &MainWindow::drawLineBasic);
+
   int xlist [3] = {10, (maxx-10) / 2, maxx - 10};
   int ylist [3] = {10, (maxy-10) / 2, maxy - 10};
 

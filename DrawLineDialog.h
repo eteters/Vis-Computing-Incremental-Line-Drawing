@@ -15,6 +15,14 @@ public:
   explicit DrawLineDialog(QWidget *parent = nullptr);
   ~DrawLineDialog();
 
+public slots:
+  void setPixelRange(int minx, int miny, int maxx, int maxy);
+
+  void apply();
+
+signals:
+  void lineParametersChanged(int, int, int, int, const QColor);
+
 private:
   Ui::DrawLineDialog *ui;
 };

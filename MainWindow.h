@@ -16,15 +16,14 @@ public:
   MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
 
-
-  void drawLineBasic(int x1, int y1, int x2, int y2, const QColor& color);
-
 public slots:
   void zoomIn();
   void zoomOut();
   void zoomActualSize();
 
   void setZoom(int);
+
+  void drawLineBasic(int x1, int y1, int x2, int y2, const QColor& color);
 
 private:
   Ui::MainWindow *ui;
